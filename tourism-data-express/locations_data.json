@@ -1,0 +1,35 @@
+{
+    "location_geo_data": {
+        "Bengaluru": {
+            "lat": 12.9716,
+            "lng": 77.5946
+        },
+        "Mysuru": {
+            "lat": 12.2958,
+            "lng": 76.6394
+        },
+        "Mangaluru": {
+            "lat": 12.9141,
+            "lng": 74.8560
+        },
+        "Hubballi": {
+            "lat": 15.3647,
+            "lng": 75.1239
+        }
+    },
+
+    "location_desc": {
+        "Bengaluru": {
+            "desc": "Known as the 'Silicon Valley of India,' Bengaluru is the capital of Karnataka and a major IT hub."
+        },
+        "Mysuru": {
+            "desc": "Famous for its royal heritage, Mysuru is known for the Mysore Palace and the annual Dussehra festival."
+        },
+        "Mangaluru": {
+            "desc": "A coastal city, Mangaluru is renowned for its beaches, seafood, and the Mangaladevi temple."
+        },
+        "Hubballi": {
+            "desc": "Hubballi, along with Dharwad, forms a twin city in northern Karnataka, known for its commercial and educational significance."
+        }
+    }
+}
