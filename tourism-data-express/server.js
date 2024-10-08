@@ -9,11 +9,12 @@ const PORT = 5500;
 app.use(express.json());
 app.use(cors());
 
-app.get("/", async function (req, res) {
+app.get("/geo_data_locations", async function (req, res) {
 
 	let data = await readFileSync('locations_data.json');
 	data = JSON.parse(data);
-	res.send(data);
+
+	res.send(data["location_geo_data"]);//Send only the lat-lng of all locations
 });
 
 

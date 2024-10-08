@@ -15,52 +15,44 @@ class DisplayLocations extends StatefulWidget {
 
 class _DisplayLocationsState extends State<DisplayLocations> {
   //STATE
-  final SERVER_URL = 'http://127.0.0.1:5500/';
+  final SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
   bool isLoaded = false;
 
   Map locationsGeoData = {};
+  List<Marker> markersFromServer = [];
 
   void getLocationData() async {
     var res = await get(Uri.parse(SERVER_URL));
     var data = jsonDecode(res.body);
 
-    print(data);
+    List locationNames = data.keys.toList();
+    // print(locationNames);
+
+    for (String locationName in locationNames) {
+      Marker locationMarker = Marker(
+        width: 80.0,
+        height: 80.0,
+        point: LatLng(data[locationName]["lat"],
+            data[locationName]["lng"]), // Bengaluru (Bangalore)
+        builder: (ctx) => GestureDetector(
+          child: Tooltip(
+            message: locationName,
+            child: const Icon(Icons.location_on_outlined,
+                color: Colors.red, size: 40),
+          ),
+          onTap: () {
+            print(locationName);
+          },
+        ),
+      );
+
+      markersFromServer.add(locationMarker);
+    }
 
     setState(() {
       isLoaded = true;
     });
   }
-
-  final List<Marker> _markers = [
-    Marker(
-      width: 80.0,
-      height: 80.0,
-      point: LatLng(12.9716, 77.5946), // Bengaluru (Bangalore)
-      builder: (ctx) => GestureDetector(
-        child: const Tooltip(
-          message: "Bengaluru",
-          child: Icon(Icons.location_on_outlined, color: Colors.red, size: 40),
-        ),
-        onTap: () {
-          // print("Bengaluru");
-        },
-      ),
-    ),
-    Marker(
-      width: 80.0,
-      height: 80.0,
-      point: LatLng(15.3173, 75.7139), // Hubli-Dharwad
-      builder: (ctx) =>
-          const Icon(Icons.location_on_outlined, color: Colors.green, size: 40),
-    ),
-    Marker(
-      width: 80.0,
-      height: 80.0,
-      point: LatLng(12.2958, 76.6394), // Mysuru (Mysore)
-      builder: (ctx) =>
-          const Icon(Icons.location_on_outlined, color: Colors.blue, size: 40),
-    ),
-  ];
 
   //--------------------------------------------------
 
@@ -70,7 +62,7 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     size: 50.0,
   );
 
-  //---
+  //----------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +94,7 @@ class _DisplayLocationsState extends State<DisplayLocations> {
                       subdomains: const ['a', 'b', 'c'],
                     ),
                     MarkerLayer(
-                      markers: _markers, // Add predefined markers
+                      markers: markersFromServer, // Add predefined markers
                     ),
                   ],
                 )
@@ -110,3 +102,38 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     );
   }
 }
+
+
+
+
+
+// final List<Marker> _markers = [
+//     Marker(
+//       width: 80.0,
+//       height: 80.0,
+//       point: LatLng(12.9716, 77.5946), // Bengaluru (Bangalore)
+//       builder: (ctx) => GestureDetector(
+//         child: const Tooltip(
+//           message: "Bengaluru",
+//           child: Icon(Icons.location_on_outlined, color: Colors.red, size: 40),
+//         ),
+//         onTap: () {
+//           // print("Bengaluru");
+//         },
+//       ),
+//     ),
+//     Marker(
+//       width: 80.0,
+//       height: 80.0,
+//       point: LatLng(15.3173, 75.7139), // Hubli-Dharwad
+//       builder: (ctx) =>
+//           const Icon(Icons.location_on_outlined, color: Colors.green, size: 40),
+//     ),
+//     Marker(
+//       width: 80.0,
+//       height: 80.0,
+//       point: LatLng(12.2958, 76.6394), // Mysuru (Mysore)
+//       builder: (ctx) =>
+//           const Icon(Icons.location_on_outlined, color: Colors.blue, size: 40),
+//     ),
+//   ];
