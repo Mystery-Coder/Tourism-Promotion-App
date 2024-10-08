@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/geo_data_locations", async function (req, res) {
-
+	console.log('got req');
 	let data = await readFileSync('locations_data.json');
 	data = JSON.parse(data);
 
@@ -25,7 +25,6 @@ app.get("/get_locations", async function (req, res) {
 	res.send(data);
 });
 
-
-app.listen(process.env.PORT || PORT, () => {
+app.listen(process.env.PORT || PORT, '0.0.0.0', () => {
 	console.log(`Listening on port ${PORT}`);
 });
