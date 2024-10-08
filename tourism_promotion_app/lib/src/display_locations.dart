@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:tourism_promotion_app/src/home_page.dart'; // for LatLng
 
@@ -132,12 +132,12 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     );
 
     markersFromServer.add(userMarker);
+    final dio = Dio();
+    var res = await dio.get(SERVER_URL);
+    var data = res.data;
 
-    var res = await get(Uri.parse(SERVER_URL));
-    var data = jsonDecode(res.body);
-    print(data);
     List locationNames = data.keys.toList();
-    // print(locationNames);
+    print(locationNames);
 
     for (String locationName in locationNames) {
       Marker locationMarker = Marker(
