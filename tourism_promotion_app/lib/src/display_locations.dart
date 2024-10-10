@@ -1,12 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:dio/dio.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:tourism_promotion_app/src/home_page.dart'; // for LatLng
+import 'package:shared_preferences/shared_preferences.dart';
+
+// const SERVER_URL = 'http://192.168.29.243:5500/geo_data_locations'; //This one is for testing on mobile on localhost
+//URL wouldnt matter if was hosted properly
+// ignore: constant_identifier_names
+const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
+const sharedPrefsKey = 'LOCATIONS.CACHED';
 
 class DisplayLocations extends StatefulWidget {
   const DisplayLocations({super.key});
@@ -17,14 +25,14 @@ class DisplayLocations extends StatefulWidget {
 
 class _DisplayLocationsState extends State<DisplayLocations> {
   //STATE
-  final SERVER_URL = 'http://192.168.29.243:5500/geo_data_locations';
+
   bool isLoaded = false;
 
   Map locationsGeoData = {};
   List<Marker> markersFromServer = [];
 
   void getLocationData() async {
-    //User Marker
+    //Deals with Location Permissions and displaying appropriate alert dialogs
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
     LocationPermission permission = await Geolocator.checkPermission();
@@ -112,10 +120,11 @@ class _DisplayLocationsState extends State<DisplayLocations> {
       }
     }
 
+    //-----------------------------------------------------------------------------------------------
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    print(position);
+    // print(position);
 
     Marker userMarker = Marker(
       width: 80.0,
@@ -132,12 +141,25 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     );
 
     markersFromServer.add(userMarker);
-    final dio = Dio();
-    var res = await dio.get(SERVER_URL);
-    var data = res.data;
+    //Let location data be fetched on each render, but other markers use SharedPrefs
+    var data;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    data = prefs.getString(sharedPrefsKey);
+
+    if (data != null) {
+      data = jsonDecode(data);
+      // print(data);
+    } else {
+      final dio = Dio();
+      var res = await dio.get(SERVER_URL);
+      data = res.data;
+
+      await prefs.setString(sharedPrefsKey, jsonEncode(data));
+    }
 
     List locationNames = data.keys.toList();
-    print(locationNames);
+    // print(locationNames);
 
     for (String locationName in locationNames) {
       Marker locationMarker = Marker(
@@ -201,7 +223,7 @@ class _DisplayLocationsState extends State<DisplayLocations> {
                   children: [
                     TileLayer(
                       urlTemplate:
-                          "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                       subdomains: const ['a', 'b', 'c'],
                     ),
                     MarkerLayer(
