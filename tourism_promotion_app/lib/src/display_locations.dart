@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_map/flutter_map.dart';
@@ -14,7 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 //URL wouldnt matter if was hosted properly
 // ignore: constant_identifier_names
 const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
-const sharedPrefsKey = 'LOCATIONS.CACHED';
+const sharedPrefsKeyForLocations = 'LOCATIONS.CACHED';
+const sharedPrefKeyForPostion = 'POSITION.CACHED';
 
 class DisplayLocations extends StatefulWidget {
   const DisplayLocations({super.key});
@@ -36,17 +36,16 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
     LocationPermission permission = await Geolocator.checkPermission();
-
-    if (!serviceEnabled) {
-      //if service is disabled show alert to enable
+    //Function to deal with repititive alert boxes
+    void showAlertForLocation(Widget title, Widget content) {
       showDialog(
         context: context,
         barrierDismissible:
             false, // Prevents dismissing the dialog by tapping outside
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Location Services Disabled"),
-            content: const Text("Enable Location Services"),
+            title: title,
+            content: content,
             actions: [
               ElevatedButton(
                 onPressed: () async {
@@ -64,72 +63,59 @@ class _DisplayLocationsState extends State<DisplayLocations> {
       );
     }
 
+    if (!serviceEnabled) {
+      //if service is disabled show alert to enable
+
+      showAlertForLocation(const Text("Location Services Disabled"),
+          const Text("Enable Location Services"));
+    }
+
     if (permission == LocationPermission.deniedForever) {
       //If denied forever, user must manually update permission
-      showDialog(
-        context: context,
-        barrierDismissible:
-            false, // Prevents dismissing the dialog by tapping outside
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Location Permissions"),
-            content: const Text("Enable Location Permissions Manually"),
-            actions: [
-              ElevatedButton(
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const HomePage()));
-                  setState(() {});
-                  return; // Close the dialog when pressed
-                },
-                child: const Text("Close"),
-              ),
-            ],
-          );
-        },
-      );
+      showAlertForLocation(const Text("Location Permissions"),
+          const Text("Enable Location Permissions Manually"));
     }
 
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
 
       if (permission == LocationPermission.deniedForever) {
-        showDialog(
-          context: context,
-          barrierDismissible:
-              false, // Prevents dismissing the dialog by tapping outside
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text("Location Permissions"),
-              content: const Text("Location Data Access is Needed"),
-              actions: [
-                ElevatedButton(
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    await Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const HomePage()));
-                    setState(() {});
-                  },
-                  child: const Text("Close"),
-                ),
-              ],
-            );
-          },
-        );
+        showAlertForLocation(const Text("Location Permissions"),
+            const Text("Location Data Access is Needed"));
       }
     }
 
     //-----------------------------------------------------------------------------------------------
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    LatLng position;
+
+    var dataPos = prefs.getString(sharedPrefKeyForPostion);
+
+    if (dataPos != null && dataPos != '') {
+      Map<String, dynamic> positionMap = jsonDecode(dataPos);
+      //Construct LatLng object from stored lat lng, cause you cant directly store LatLng Object
+      position = LatLng(positionMap['latitude'], positionMap['longitude']);
+    } else {
+      Position positionFromGeo = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      position = LatLng(positionFromGeo.latitude, positionFromGeo.longitude);
+
+      await prefs.setString(
+          sharedPrefKeyForPostion,
+          jsonEncode({
+            'latitude': position.latitude,
+            'longitude': position.longitude
+          }));
+    }
 
     // print(position);
 
     Marker userMarker = Marker(
       width: 80.0,
       height: 80.0,
-      point: LatLng(position.latitude, position.longitude),
+      point: position,
       builder: (ctx) => GestureDetector(
         child: const Tooltip(
           message: "You",
@@ -144,10 +130,9 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     //Let location data be fetched on each render, but other markers use SharedPrefs
     var data;
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    data = prefs.getString(sharedPrefsKey);
+    data = prefs.getString(sharedPrefsKeyForLocations);
 
-    if (data != null) {
+    if (data != null && data != '') {
       data = jsonDecode(data);
       // print(data);
     } else {
@@ -155,7 +140,7 @@ class _DisplayLocationsState extends State<DisplayLocations> {
       var res = await dio.get(SERVER_URL);
       data = res.data;
 
-      await prefs.setString(sharedPrefsKey, jsonEncode(data));
+      await prefs.setString(sharedPrefsKeyForLocations, jsonEncode(data));
     }
 
     List locationNames = data.keys.toList();
@@ -210,6 +195,18 @@ class _DisplayLocationsState extends State<DisplayLocations> {
             title: const Text('Static Map of Karnataka'),
             backgroundColor: Colors.blue[800],
           ),
+          floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString(sharedPrefKeyForPostion, '');
+                await prefs.setString(sharedPrefsKeyForLocations, '');
+                // print("Re render");
+                setState(() {
+                  isLoaded = false;
+                }); //Call set state to re-render after nulling cache
+              },
+              tooltip: 'Refresh',
+              child: const Icon(Icons.refresh)),
           body: isLoaded
               ? FlutterMap(
                   options: MapOptions(
