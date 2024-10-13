@@ -12,7 +12,7 @@ class LocationDetails extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.centerc,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [Text("Distance To You: ${data['dist']} km")],
         ),
       ),
