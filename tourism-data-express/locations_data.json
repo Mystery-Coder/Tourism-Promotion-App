@@ -1,34 +1,41 @@
 {
     "location_geo_data": {
-        "Bengaluru": {
-            "lat": 12.9716,
-            "lng": 77.5946
+        "Gudibande Fort": {
+            "lat": 13.6894,
+            "lng": 77.7223
         },
-        "Mysuru": {
-            "lat": 12.2958,
-            "lng": 76.6394
+        "Banavasi": {
+            "lat": 14.5339,
+            "lng": 75.0099
         },
-        "Mangaluru": {
-            "lat": 12.9141,
-            "lng": 74.8560
+        "Kudumari Waterfalls": {
+            "lat": 13.6204,
+            "lng": 74.7046
         },
-        "Hubballi": {
-            "lat": 15.3647,
-            "lng": 75.1239
+        "Siddara Betta": {
+            "lat": 13.4311,
+            "lng": 77.2126
+        },
+        "Kundadri Hills": {
+            "lat": 13.5142,
+            "lng": 75.0613
         }
     },
     "location_desc": {
-        "Bengaluru": {
-            "desc": "Known as the 'Silicon Valley of India,' Bengaluru is the capital of Karnataka and a major IT hub."
+        "Gudibande Fort": {
+            "desc": "An ancient hilltop fort offering stunning panoramic views and a peaceful trek, located near Chikkaballapur."
         },
-        "Mysuru": {
-            "desc": "Famous for its royal heritage, Mysuru is known for the Mysore Palace and the annual Dussehra festival."
+        "Banavasi": {
+            "desc": "A historic town known for its cultural heritage, Banavasi is one of the oldest towns in Karnataka, home to the famous Madhukeshwara Temple."
         },
-        "Mangaluru": {
-            "desc": "A coastal city, Mangaluru is renowned for its beaches, seafood, and the Mangaladevi temple."
+        "Kudumari Waterfalls": {
+            "desc": "A secluded waterfall near Kundapura, nestled in dense forests and requiring a short trek to reach."
         },
-        "Hubballi": {
-            "desc": "Hubballi, along with Dharwad, forms a twin city in northern Karnataka, known for its commercial and educational significance."
+        "Siddara Betta": {
+            "desc": "A peaceful hill known for meditation, trekking, and ancient caves, situated near Tumkur."
+        },
+        "Kundadri Hills": {
+            "desc": "A tranquil hill station near Agumbe, known for its Jain temple and panoramic views of the Western Ghats."
         }
     }
 }

@@ -12,9 +12,9 @@ import 'package:tourism_promotion_app/src/location_details.dart';
 
 //URL wouldnt matter if was hosted properly
 // ignore: constant_identifier_names
-const SERVER_URL =
-    'http://192.168.29.243:5500/geo_data_locations'; //This one is for testing on mobile on localhost
-// const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
+// const SERVER_URL =
+//     'http://192.168.29.243:5500/geo_data_locations'; //This one is for testing on mobile on localhost
+const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
 const sharedPrefsKeyForLocations = 'LOCATIONS.CACHED';
 const sharedPrefKeyForPostion = 'POSITION.CACHED';
 
@@ -141,7 +141,7 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     } else {
       final dio = Dio();
       var res = await dio.get(SERVER_URL);
-      data = res.data;
+      data = res.data; //dio gives direct JSON
 
       await prefs.setString(sharedPrefsKeyForLocations, jsonEncode(data));
     }
@@ -183,8 +183,10 @@ class _DisplayLocationsState extends State<DisplayLocations> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        LocationDetails(data: data[locationName])));
+                    builder: (context) => LocationDetails(props: {
+                          "locationName": locationName,
+                          "dist": data[locationName]['dist']
+                        })));
           },
         ),
       );
