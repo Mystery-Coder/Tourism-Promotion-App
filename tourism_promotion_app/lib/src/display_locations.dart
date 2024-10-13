@@ -8,11 +8,13 @@ import 'package:dio/dio.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:tourism_promotion_app/src/home_page.dart'; // for LatLng
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tourism_promotion_app/src/location_details.dart';
 
-// const SERVER_URL = 'http://192.168.29.243:5500/geo_data_locations'; //This one is for testing on mobile on localhost
 //URL wouldnt matter if was hosted properly
 // ignore: constant_identifier_names
-const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
+const SERVER_URL =
+    'http://192.168.29.243:5500/geo_data_locations'; //This one is for testing on mobile on localhost
+// const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
 const sharedPrefsKeyForLocations = 'LOCATIONS.CACHED';
 const sharedPrefKeyForPostion = 'POSITION.CACHED';
 
@@ -28,7 +30,6 @@ class _DisplayLocationsState extends State<DisplayLocations> {
 
   bool isLoaded = false;
 
-  Map locationsGeoData = {};
   List<Marker> markersFromServer = [];
 
   void getLocationData() async {
@@ -88,11 +89,12 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     //-----------------------------------------------------------------------------------------------
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    LatLng position;
+    LatLng position; //Will store user lat long either from cache or geolocator
 
     var dataPos = prefs.getString(sharedPrefKeyForPostion);
 
     if (dataPos != null && dataPos != '') {
+      //null means, cache hasnt been set for first time
       Map<String, dynamic> positionMap = jsonDecode(dataPos);
       //Construct LatLng object from stored lat lng, cause you cant directly store LatLng Object
       position = LatLng(positionMap['latitude'], positionMap['longitude']);
@@ -128,6 +130,7 @@ class _DisplayLocationsState extends State<DisplayLocations> {
 
     markersFromServer.add(userMarker);
     //Let location data be fetched on each render, but other markers use SharedPrefs
+    // ignore: prefer_typing_uninitialized_variables
     var data;
 
     data = prefs.getString(sharedPrefsKeyForLocations);
@@ -145,6 +148,19 @@ class _DisplayLocationsState extends State<DisplayLocations> {
 
     List locationNames = data.keys.toList();
     // print(locationNames);
+    const Distance distance = Distance();
+    double minDist = double.infinity;
+    for (String locationName in locationNames) {
+      //setting distance of each of location to user
+      double d = distance.as(LengthUnit.Kilometer, position,
+          LatLng(data[locationName]["lat"], data[locationName]["lng"]));
+
+      if (d < minDist) {
+        minDist = d;
+      }
+
+      data[locationName]['dist'] = d;
+    }
 
     for (String locationName in locationNames) {
       Marker locationMarker = Marker(
@@ -155,11 +171,20 @@ class _DisplayLocationsState extends State<DisplayLocations> {
         builder: (ctx) => GestureDetector(
           child: Tooltip(
             message: locationName,
-            child: const Icon(Icons.location_on_outlined,
-                color: Colors.red, size: 40),
+            child: Icon(Icons.location_on_outlined,
+                color: data[locationName]['dist'] == minDist
+                    ? Colors.blue
+                    : Colors.red,
+                size: 40),
           ),
           onTap: () {
-            print(locationName);
+            // print(data[locationName]['dist']);
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        LocationDetails(data: data[locationName])));
           },
         ),
       );
