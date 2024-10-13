@@ -170,7 +170,8 @@ class _DisplayLocationsState extends State<DisplayLocations> {
             data[locationName]["lng"]), // Bengaluru (Bangalore)
         builder: (ctx) => GestureDetector(
           child: Tooltip(
-            message: locationName,
+            message: locationName.replaceAll("_",
+                " "), //Underscores are needed because of URL constraints, but removed wherever user sees locationName
             child: Icon(Icons.location_on_outlined,
                 color: data[locationName]['dist'] == minDist
                     ? Colors.blue

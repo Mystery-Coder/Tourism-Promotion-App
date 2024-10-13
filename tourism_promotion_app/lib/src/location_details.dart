@@ -41,7 +41,7 @@ class _LocationDetailsState extends State<LocationDetails> {
     locationDetails['locationName'] = locationName;
     locationDetails['dist'] = dist;
 
-    // print(locationDetails);
+    print(locationDetails);
 
     setState(() {
       isLoaded = true;
@@ -63,8 +63,9 @@ class _LocationDetailsState extends State<LocationDetails> {
     //Use LocationDetails object to build
     return Scaffold(
         appBar: AppBar(
-          title:
-              Text("Location Details for ${locationDetails['locationName']}"),
+          title: Text(
+              "Location Details for ${locationName.replaceAll("_", " ")}"), //Underscores are needed because of URL constraints, but removed wherever user sees locationName
+
           backgroundColor: const Color.fromARGB(255, 6, 198, 208),
         ),
         body: isLoaded
@@ -72,6 +73,11 @@ class _LocationDetailsState extends State<LocationDetails> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Image.network(
+                      locationDetails['imageURL'],
+                      width: 700,
+                      height: 400,
+                    ),
                     Text('Description: ${locationDetails['desc']}'),
                     Text('Distance To You: ${locationDetails['dist']} km')
                   ],

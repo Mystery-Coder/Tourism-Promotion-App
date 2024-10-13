@@ -1,6 +1,6 @@
 {
     "location_geo_data": {
-        "Gudibande Fort": {
+        "Gudibande_Fort": {
             "lat": 13.6894,
             "lng": 77.7223
         },
@@ -8,33 +8,33 @@
             "lat": 14.5339,
             "lng": 75.0099
         },
-        "Kudumari Waterfalls": {
+        "Kudumari_Waterfalls": {
             "lat": 13.6204,
             "lng": 74.7046
         },
-        "Siddara Betta": {
+        "Siddara_Betta": {
             "lat": 13.4311,
             "lng": 77.2126
         },
-        "Kundadri Hills": {
+        "Kundadri_Hills": {
             "lat": 13.5142,
             "lng": 75.0613
         }
     },
     "location_desc": {
-        "Gudibande Fort": {
+        "Gudibande_Fort": {
             "desc": "An ancient hilltop fort offering stunning panoramic views and a peaceful trek, located near Chikkaballapur."
         },
         "Banavasi": {
             "desc": "A historic town known for its cultural heritage, Banavasi is one of the oldest towns in Karnataka, home to the famous Madhukeshwara Temple."
         },
-        "Kudumari Waterfalls": {
+        "Kudumari_Waterfalls": {
             "desc": "A secluded waterfall near Kundapura, nestled in dense forests and requiring a short trek to reach."
         },
-        "Siddara Betta": {
+        "Siddara_Betta": {
             "desc": "A peaceful hill known for meditation, trekking, and ancient caves, situated near Tumkur."
         },
-        "Kundadri Hills": {
+        "Kundadri_Hills": {
             "desc": "A tranquil hill station near Agumbe, known for its Jain temple and panoramic views of the Western Ghats."
         }
     }
