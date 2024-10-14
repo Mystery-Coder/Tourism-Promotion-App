@@ -41,6 +41,10 @@ app.get("/location_details/:locationName", async function (req, res) {
     res.send(details);
 });
 
+app.get("/quiz", function (req, res) {
+    res.send({ status: 200 });
+});
+
 app.listen(process.env.PORT || PORT, "0.0.0.0", () => {
     console.log(`http://localhost:${PORT}/`);
 });
