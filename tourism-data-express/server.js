@@ -25,7 +25,7 @@ app.get("/", function (req, res) {
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.get("/geo_data_locations", async function (req, res) {
-    console.log("got req");
+    // console.log("got req");
     let data = await readFileSync(JSON_FILENAME);
     data = JSON.parse(data);
 
@@ -33,13 +33,15 @@ app.get("/geo_data_locations", async function (req, res) {
 });
 
 app.get("/location_details/:locationName", async function (req, res) {
-    let data = await readFileSync("JSON_FILENAME");
+    let data = await readFileSync(JSON_FILENAME);
     data = JSON.parse(data);
     let locationName = req.params.locationName;
-    console.log(locationName);
+    console.log(`Requested location: ${locationName}`);
+
     let details = data["location_desc"][locationName]; //Need to add imageURL to this details obj before sending
     details["imageURL"] = `http://localhost:${PORT}/images/${locationName}.png`;
 
+    res.status(200);
     res.send(details);
 });
 

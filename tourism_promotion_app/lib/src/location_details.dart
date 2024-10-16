@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -26,26 +28,32 @@ class _LocationDetailsState extends State<LocationDetails> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
     locationName = widget.props['locationName'];
     dist = widget.props['dist'];
   }
 
   void getLocationDetails() async {
+    if (isLoaded) return; // Double guard, prevent unnecessary fetches
+
     final dio = Dio();
-    var res = await dio.get(SERVER_LOCATION_DETAILS_URL + locationName);
-    locationDetails = res.data; //dio gives direct JSON
+    try {
+      // print(SERVER_LOCATION_DETAILS_URL + locationName);
+      var res = await dio.get(SERVER_LOCATION_DETAILS_URL + locationName);
+      locationDetails = res.data; // Dio gives direct JSON
 
-    //Not adding this on init cuz object gets overridden before here
-    locationDetails['locationName'] = locationName;
-    locationDetails['dist'] = dist;
+      locationDetails['locationName'] = locationName;
+      locationDetails['dist'] = dist;
 
-    print(locationDetails);
+      print(locationDetails);
 
-    setState(() {
-      isLoaded = true;
-    });
+      setState(() {
+        isLoaded = true; // Mark as loaded only after the data is fetched
+      });
+    } catch (e) {
+      print("Error fetching location details: $e");
+    }
   }
 
   //Loader Animation
@@ -56,11 +64,10 @@ class _LocationDetailsState extends State<LocationDetails> {
 
   @override
   Widget build(BuildContext context) {
+    //Use LocationDetails object to build
     if (!isLoaded) {
       getLocationDetails();
     }
-
-    //Use LocationDetails object to build
     return Scaffold(
         appBar: AppBar(
           title: Text(

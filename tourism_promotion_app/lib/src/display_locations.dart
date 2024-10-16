@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
@@ -11,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourism_promotion_app/src/location_details.dart';
 
 //URL wouldnt matter if was hosted properly
-// ignore: constant_identifier_names
+
 // const SERVER_URL =
 //     'http://192.168.29.243:5500/geo_data_locations'; //This one is for testing on mobile on localhost
 const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
@@ -180,7 +182,6 @@ class _DisplayLocationsState extends State<DisplayLocations> {
           ),
           onTap: () {
             // print(data[locationName]['dist']);
-
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -260,34 +261,3 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     );
   }
 }
-
-// final List<Marker> _markers = [
-//     Marker(
-//       width: 80.0,
-//       height: 80.0,
-//       point: LatLng(12.9716, 77.5946), // Bengaluru (Bangalore)
-//       builder: (ctx) => GestureDetector(
-//         child: const Tooltip(
-//           message: "Bengaluru",
-//           child: Icon(Icons.location_on_outlined, color: Colors.red, size: 40),
-//         ),
-//         onTap: () {
-//           // print("Bengaluru");
-//         },
-//       ),
-//     ),
-//     Marker(
-//       width: 80.0,
-//       height: 80.0,
-//       point: LatLng(15.3173, 75.7139), // Hubli-Dharwad
-//       builder: (ctx) =>
-//           const Icon(Icons.location_on_outlined, color: Colors.green, size: 40),
-//     ),
-//     Marker(
-//       width: 80.0,
-//       height: 80.0,
-//       point: LatLng(12.2958, 76.6394), // Mysuru (Mysore)
-//       builder: (ctx) =>
-//           const Icon(Icons.location_on_outlined, color: Colors.blue, size: 40),
-//     ),
-//   ];
