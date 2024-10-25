@@ -46,7 +46,7 @@ class _LocationDetailsState extends State<LocationDetails> {
       locationDetails['locationName'] = locationName;
       locationDetails['dist'] = dist;
 
-      print(locationDetails);
+      // print(locationDetails);
 
       setState(() {
         isLoaded = true; // Mark as loaded only after the data is fetched

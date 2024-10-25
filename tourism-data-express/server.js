@@ -2,6 +2,7 @@ import express from "express";
 import { readFileSync, writeFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { getRandomElements, shuffleArray } from "./func.js";
+import { getDistance } from "geolib";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,12 +25,33 @@ app.get("/", function (req, res) {
 // Middleware to serve static files from the images directory
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-app.get("/geo_data_locations", async function (req, res) {
-    // console.log("got req");
-    let data = await readFileSync(JSON_FILENAME);
-    data = JSON.parse(data);
+app.get("/geo_data_locations/:userLat/:userLng", async function (req, res) {
+    //userLat, userLng sent from frontend
 
-    res.send(data["location_geo_data"]); //Send only the lat-lng of all locations
+    let userLat = +req.params.userLat;
+    let userLng = +req.params.userLng;
+
+    let data = await readFileSync(JSON_FILENAME); //copy of file
+    data = JSON.parse(data);
+    let location_geo_data = data["location_geo_data"];
+
+    let keys = Object.keys(location_geo_data);
+
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        let lat = location_geo_data[key]["lat"];
+        let lng = location_geo_data[key]["lng"];
+
+        let dist =
+            getDistance(
+                { latitude: userLat, longitude: userLng },
+                { latitude: lat, longitude: lng }
+            ) / 1000; //in km
+
+        location_geo_data[key]["userDist"] = dist;
+    }
+
+    res.send(location_geo_data); //Send only the lat-lng with dist also of all locations
 });
 
 app.get("/location_details/:locationName", async function (req, res) {

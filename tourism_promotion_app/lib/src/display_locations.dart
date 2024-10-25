@@ -16,7 +16,7 @@ import 'package:tourism_promotion_app/src/location_details.dart';
 
 // const SERVER_URL =
 //     'http://192.168.29.243:5500/geo_data_locations'; //This one is for testing on mobile on localhost
-const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
+const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations/';
 const sharedPrefsKeyForLocations = 'LOCATIONS.CACHED';
 const sharedPrefKeyForPostion = 'POSITION.CACHED';
 
@@ -142,20 +142,19 @@ class _DisplayLocationsState extends State<DisplayLocations> {
       // print(data);
     } else {
       final dio = Dio();
-      var res = await dio.get(SERVER_URL);
+      var res = await dio.get(
+          "$SERVER_URL${position.latitude.toString()}/${position.longitude.toString()}");
       data = res.data; //dio gives direct JSON
 
       await prefs.setString(sharedPrefsKeyForLocations, jsonEncode(data));
     }
 
     List locationNames = data.keys.toList();
-    // print(locationNames);
-    const Distance distance = Distance();
+
     double minDist = double.infinity;
     for (String locationName in locationNames) {
       //setting distance of each of location to user
-      double d = distance.as(LengthUnit.Kilometer, position,
-          LatLng(data[locationName]["lat"], data[locationName]["lng"]));
+      double d = data[locationName]['userDist'];
 
       if (d < minDist) {
         minDist = d;
