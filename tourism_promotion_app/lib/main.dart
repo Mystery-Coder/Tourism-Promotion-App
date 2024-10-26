@@ -14,7 +14,7 @@ void main() {
       '/display_locations': (context) => const DisplayLocations(),
       '/quiz': (context) => const QuizLocations(),
       '/add_location_path': (context) => const AddLocation(),
-      // '/location_details': (context) => const LocationDetails(), //Added as Dynamic Route, as in built when called
+      // '/location_details': (context) => const LocationDetails(), //Added as Dynamic Route, as in built when called cuz data needs to be passed
     },
   ));
 }

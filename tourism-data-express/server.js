@@ -1,5 +1,5 @@
 import express from "express";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { getRandomElements, shuffleArray } from "./func.js";
 import { getDistance } from "geolib";

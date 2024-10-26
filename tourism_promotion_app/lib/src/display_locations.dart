@@ -16,7 +16,7 @@ import 'package:tourism_promotion_app/src/location_details.dart';
 
 // const SERVER_URL =
 //     'http://192.168.29.243:5500/geo_data_locations'; //This one is for testing on mobile on localhost
-const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations/';
+const SERVER_URL = 'http://127.0.0.1:5500/geo_data_locations';
 const sharedPrefsKeyForLocations = 'LOCATIONS.CACHED';
 const sharedPrefKeyForPostion = 'POSITION.CACHED';
 
@@ -34,37 +34,38 @@ class _DisplayLocationsState extends State<DisplayLocations> {
 
   List<Marker> markersFromServer = [];
 
+  //Function to deal with repititive alert boxes
+  void showAlertForLocation(Widget title, Widget content) {
+    showDialog(
+      context: context,
+      barrierDismissible:
+          false, // Prevents dismissing the dialog by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: title,
+          content: content,
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const HomePage()));
+                setState(() {});
+                return; // Close the dialog when pressed
+              },
+              child: const Text("Close"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void getLocationData() async {
     //Deals with Location Permissions and displaying appropriate alert dialogs
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
     LocationPermission permission = await Geolocator.checkPermission();
-    //Function to deal with repititive alert boxes
-    void showAlertForLocation(Widget title, Widget content) {
-      showDialog(
-        context: context,
-        barrierDismissible:
-            false, // Prevents dismissing the dialog by tapping outside
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: title,
-            content: content,
-            actions: [
-              ElevatedButton(
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const HomePage()));
-                  setState(() {});
-                  return; // Close the dialog when pressed
-                },
-                child: const Text("Close"),
-              ),
-            ],
-          );
-        },
-      );
-    }
 
     if (!serviceEnabled) {
       //if service is disabled show alert to enable
@@ -141,9 +142,13 @@ class _DisplayLocationsState extends State<DisplayLocations> {
       data = jsonDecode(data);
       // print(data);
     } else {
+      print(
+          "$SERVER_URL/${position.latitude.toString()}/${position.longitude.toString()}");
+
       final dio = Dio();
       var res = await dio.get(
-          "$SERVER_URL${position.latitude.toString()}/${position.longitude.toString()}");
+          "$SERVER_URL/${position.latitude.toString()}/${position.longitude.toString()}");
+
       data = res.data; //dio gives direct JSON
 
       await prefs.setString(sharedPrefsKeyForLocations, jsonEncode(data));
