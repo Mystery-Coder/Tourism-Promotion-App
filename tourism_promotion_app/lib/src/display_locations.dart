@@ -142,8 +142,8 @@ class _DisplayLocationsState extends State<DisplayLocations> {
       data = jsonDecode(data);
       // print(data);
     } else {
-      print(
-          "$SERVER_URL/${position.latitude.toString()}/${position.longitude.toString()}");
+      // print(
+      //     "$SERVER_URL/${position.latitude.toString()}/${position.longitude.toString()}");
 
       final dio = Dio();
       var res = await dio.get(

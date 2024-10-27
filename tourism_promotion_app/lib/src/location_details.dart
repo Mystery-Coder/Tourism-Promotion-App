@@ -86,7 +86,8 @@ class _LocationDetailsState extends State<LocationDetails> {
                       height: 400,
                     ),
                     Text('Description: ${locationDetails['desc']}'),
-                    Text('Distance To You: ${locationDetails['dist']} km')
+                    Text('Distance To You: ${locationDetails['dist']} km'),
+                    Text('Directions: ${locationDetails['maps_link']}')
                   ],
                 ),
               )

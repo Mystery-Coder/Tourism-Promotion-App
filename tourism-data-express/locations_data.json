@@ -16,26 +16,31 @@
             "lat": 13.4311,
             "lng": 77.2126
         },
-        "Kundadri_Hills": {
-            "lat": 13.5142,
-            "lng": 75.0613
+        "Savehaklu_Reservoir": {
+            "lat": 13.656,
+            "lng": 75.1139
         }
     },
     "location_desc": {
         "Gudibande_Fort": {
-            "desc": "An ancient hilltop fort offering stunning panoramic views and a peaceful trek, located near Chikkaballapur."
+            "desc": "An ancient hilltop fort offering stunning panoramic views and a peaceful trek, located near Chikkaballapur.",
+            "maps_link": "https://www.google.com/maps?q=13.6894,77.7223"
         },
         "Banavasi": {
-            "desc": "A historic town known for its cultural heritage, Banavasi is one of the oldest towns in Karnataka, home to the famous Madhukeshwara Temple."
+            "desc": "A historic town known for its cultural heritage, Banavasi is one of the oldest towns in Karnataka, home to the famous Madhukeshwara Temple.",
+            "maps_link": "https://www.google.com/maps?q=14.5339,75.0099"
         },
         "Kudumari_Waterfalls": {
-            "desc": "A secluded waterfall near Kundapura, nestled in dense forests and requiring a short trek to reach."
+            "desc": "A secluded waterfall near Kundapura, nestled in dense forests and requiring a short trek to reach.",
+            "maps_link": "https://www.google.com/maps?q=13.6204,74.7046"
         },
         "Siddara_Betta": {
-            "desc": "A peaceful hill known for meditation, trekking, and ancient caves, situated near Tumkur."
+            "desc": "A peaceful hill known for meditation, trekking, and ancient caves, situated near Tumkur.",
+            "maps_link": "https://www.google.com/maps?q=13.4311,77.2126"
         },
-        "Kundadri_Hills": {
-            "desc": "A tranquil hill station near Agumbe, known for its Jain temple and panoramic views of the Western Ghats."
+        "Savehaklu_Reservoir": {
+            "desc": "A scenic reservoir near Agumbe, surrounded by lush green hills, offering a serene getaway and panoramic views.",
+            "maps_link": "https://www.google.com/maps?q=13.6560,75.1139"
         }
     }
 }
