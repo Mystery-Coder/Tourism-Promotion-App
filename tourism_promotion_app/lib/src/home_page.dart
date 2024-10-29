@@ -27,30 +27,38 @@ class HomePage extends StatelessWidget {
                     Navigator.pushNamed(context, "/display_locations");
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlueAccent,
-                  ),
+                      backgroundColor: Colors.lightBlueAccent,
+                      fixedSize: const Size(200, 30)),
                   child: const Text(
                     "View Locations",
                     style: TextStyle(color: Colors.black87),
                   ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, "/quiz");
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlueAccent),
+                      backgroundColor: Colors.lightBlueAccent,
+                      fixedSize: const Size(200, 30)),
                   child: const Text(
                     "Quiz Locations",
                     style: TextStyle(color: Colors.black87),
                   ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, "/add_location_path");
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.lightBlueAccent),
+                      backgroundColor: Colors.lightBlueAccent,
+                      fixedSize: const Size(200, 30)),
                   child: const Text(
                     "Add Location",
                     style: TextStyle(color: Colors.black87),
