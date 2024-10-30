@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 import path from "path";
 
 import cors from "cors";
+import { log } from "console";
 
 const app = express();
 const PORT = 5500;
@@ -27,6 +28,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.get("/geo_data_locations/:userLat/:userLng", async function (req, res) {
     //userLat, userLng sent from frontend
+    console.log("Got req");
 
     let userLat = +req.params.userLat;
     let userLng = +req.params.userLng;
@@ -50,6 +52,7 @@ app.get("/geo_data_locations/:userLat/:userLng", async function (req, res) {
 
         location_geo_data[key]["userDist"] = dist;
     }
+    // console.log(location_geo_data);
 
     res.send(location_geo_data); //Send only the lat-lng with dist also of all locations
 });
@@ -61,7 +64,7 @@ app.get("/location_details/:locationName", async function (req, res) {
     console.log(`Requested location: ${locationName}`);
 
     let details = data["location_desc"][locationName]; //Need to add imageURL to this details obj before sending
-    details["imageURL"] = `http://localhost:${PORT}/images/${locationName}.png`;
+    details["imageURL"] = `http://localhost:${PORT}/images/${locationName}.png`; //This causes issues on mobile due to the localhost address
 
     res.status(200);
     res.send(details);
