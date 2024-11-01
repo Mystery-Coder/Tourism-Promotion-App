@@ -71,7 +71,7 @@ app.get("/location_details/:locationName", async function (req, res) {
 });
 
 app.get("/quiz", async function (req, res) {
-    let noOfQuestions = 3;
+    let noOfQuestions = 5;
     let noOfOptions = 3;
 
     let data = await readFileSync(JSON_FILENAME);
