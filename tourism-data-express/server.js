@@ -3,6 +3,10 @@ import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { getRandomElements, shuffleArray } from "./func.js";
 import { getDistance } from "geolib";
+import { configDotenv } from "dotenv";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+configDotenv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,7 +14,6 @@ const __dirname = path.dirname(__filename);
 import path from "path";
 
 import cors from "cors";
-import { log } from "console";
 
 const app = express();
 const PORT = 5500;
@@ -108,6 +111,22 @@ app.get("/quiz", async function (req, res) {
     }
 
     res.send(questions);
+});
+
+app.post("/querygemini", async (req, res) => {
+    const reqData = req.body;
+    // console.log(reqData);
+
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const prompt = reqData.prompt;
+
+    const result = await model.generateContent(prompt);
+    const output = result.response.text();
+    // console.log(result.response.text());
+
+    res.send({ output });
 });
 
 app.listen(process.env.PORT || PORT, "0.0.0.0", () => {
