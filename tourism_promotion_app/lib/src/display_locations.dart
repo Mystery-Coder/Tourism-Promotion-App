@@ -229,17 +229,19 @@ class _DisplayLocationsState extends State<DisplayLocations> {
             backgroundColor: Colors.blue[800],
           ),
           floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.setString(sharedPrefKeyForPostion, '');
-                await prefs.setString(sharedPrefsKeyForLocations, '');
-                // print("Re render");
-                setState(() {
-                  isLoaded = false;
-                }); //Call set state to re-render after nulling cache
-              },
-              tooltip: 'Refresh',
-              child: const Icon(Icons.refresh)),
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setString(sharedPrefKeyForPostion, '');
+              await prefs.setString(sharedPrefsKeyForLocations, '');
+              // print("Re render");
+              setState(() {
+                isLoaded = false;
+              }); //Call set state to re-render after nulling cache
+            },
+            tooltip: 'Refresh',
+            backgroundColor: Colors.amberAccent,
+            child: const Icon(Icons.refresh),
+          ),
           body: isLoaded
               ? FlutterMap(
                   options: MapOptions(
