@@ -159,7 +159,9 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     for (String locationName in locationNames) {
       //setting distance of each of location to user
 
-      double d = data[locationName]['userDist'];
+      double d = data[locationName]['userDist'] ?? 0.0;
+
+      // print(data[locationName]);
 
       if (d < minDist) {
         minDist = d;

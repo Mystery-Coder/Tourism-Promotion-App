@@ -85,9 +85,30 @@ class _LocationDetailsState extends State<LocationDetails> {
                       width: 700,
                       height: 400,
                     ),
-                    Text('Description: ${locationDetails['desc']}'),
-                    Text('Distance To You: ${locationDetails['dist']} km'),
-                    Text('Directions: ${locationDetails['maps_link']}')
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Description: ${locationDetails['desc']}',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Distance To You: ${locationDetails['dist']} km',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Directions: ${locationDetails['maps_link']}',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w600),
+                    )
                   ],
                 ),
               )
