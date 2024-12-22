@@ -10,6 +10,7 @@ class AddLocation extends StatefulWidget {
   State<AddLocation> createState() => _AddLocationState();
 }
 
+// ignore: constant_identifier_names
 const SERVER_URL = 'http://127.0.0.1:5500/add_location';
 
 class _AddLocationState extends State<AddLocation> {

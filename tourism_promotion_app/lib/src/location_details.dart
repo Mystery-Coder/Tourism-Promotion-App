@@ -2,6 +2,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: constant_identifier_names
@@ -88,10 +89,15 @@ class _LocationDetailsState extends State<LocationDetails> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      'Description: ${locationDetails['desc']}',
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w600),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                      child: Text(
+                        'Description: ${locationDetails['desc']}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -99,15 +105,34 @@ class _LocationDetailsState extends State<LocationDetails> {
                     Text(
                       'Distance To You: ${locationDetails['dist']} km',
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w600),
+                          fontSize: 16, fontWeight: FontWeight.w300),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      'Directions: ${locationDetails['maps_link']}',
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w600),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SelectableText(
+                          'Directions: ${locationDetails['maps_link']}',
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline),
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              Clipboard.setData(ClipboardData(
+                                  text: locationDetails['maps_link']));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text("Copied Link"),
+                                duration: Duration(seconds: 1),
+                              ));
+                            },
+                            icon: const Icon(Icons.copy))
+                      ],
                     )
                   ],
                 ),
