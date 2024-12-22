@@ -82,6 +82,7 @@ class _AddLocationState extends State<AddLocation> {
                 });
 
                 if (res.statusCode == 200) {
+                  // ignore: use_build_context_synchronously
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Added New Location"),
                   ));

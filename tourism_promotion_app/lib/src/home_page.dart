@@ -20,15 +20,15 @@ class HomePage extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              DrawerHeader(
+              const DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blueAccent,
-                  image: const DecorationImage(
+                  image: DecorationImage(
                     image: AssetImage('assets/images/bg_img-3.jpeg'),
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   "Menu",
                   style: TextStyle(
                     color: Colors.white,
@@ -154,6 +154,14 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          heroTag: 'u1',
+          onPressed: () {
+            Navigator.pushNamed(context, "/ai_integration");
+          },
+          backgroundColor: Colors.blueAccent,
+          child: const Icon(Icons.lightbulb_outline),
         ),
       ),
     );

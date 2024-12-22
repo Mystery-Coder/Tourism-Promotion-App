@@ -5,15 +5,14 @@ import { getRandomElements, shuffleArray } from "./func.js";
 import { getDistance } from "geolib";
 import { configDotenv } from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import path from "path";
+import cors from "cors";
+import nodemailer from "nodemailer"; // Import Nodemailer
 
 configDotenv();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-import path from "path";
-
-import cors from "cors";
 
 const app = express();
 const PORT = 5500;
@@ -31,8 +30,6 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.get("/geo_data_locations/:userLat/:userLng", async function (req, res) {
     //userLat, userLng sent from frontend
-    console.log("Got req");
-
     let userLat = +req.params.userLat;
     let userLng = +req.params.userLng;
 
@@ -55,7 +52,6 @@ app.get("/geo_data_locations/:userLat/:userLng", async function (req, res) {
 
         location_geo_data[key]["userDist"] = dist;
     }
-    // console.log(location_geo_data);
 
     res.send(location_geo_data); //Send only the lat-lng with dist also of all locations
 });
@@ -64,7 +60,6 @@ app.get("/location_details/:locationName", async function (req, res) {
     let data = await readFileSync(JSON_FILENAME);
     data = JSON.parse(data);
     let locationName = req.params.locationName;
-    console.log(`Requested location: ${locationName}`);
 
     let details = data["location_desc"][locationName]; //Need to add imageURL to this details obj before sending
     details["imageURL"] = `http://localhost:${PORT}/images/${locationName}.png`; //This causes issues on mobile due to the localhost address
@@ -74,7 +69,7 @@ app.get("/location_details/:locationName", async function (req, res) {
 });
 
 app.get("/quiz", async function (req, res) {
-    let noOfQuestions = 5;
+    let noOfQuestions = 3;
     let noOfOptions = 3;
 
     let data = await readFileSync(JSON_FILENAME);
@@ -115,26 +110,24 @@ app.get("/quiz", async function (req, res) {
 
 app.post("/querygemini", async (req, res) => {
     const reqData = req.body;
-    // console.log(reqData);
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const prompt = reqData.prompt;
+    const prompt =
+        "Limit to 20 lines, this is a prompt from a user of a tourism promotion app:" +
+        reqData.prompt;
 
     const result = await model.generateContent(prompt);
     const output = result.response.text();
-    // console.log(result.response.text());
 
     res.send({ output });
 });
 
 app.post("/add_location", async (req, res) => {
     const reqData = req.body;
-    // console.log(reqData);
 
     const parsedURL = new URL(reqData.url);
-
     const coordinates = parsedURL.searchParams.get("q");
 
     // Split the coordinates into latitude and longitude
@@ -153,6 +146,46 @@ app.post("/add_location", async (req, res) => {
     res.send();
 });
 
+// Contact endpoint to receive contact form data and send an email
+app.post("/contact", async (req, res) => {
+    const { name, email, message } = req.body;
+
+    if (!name || !email || !message) {
+        return res.status(400).send({ error: "All fields are required" });
+    }
+
+    // Set up Nodemailer transporter with your email service details
+    const transporter = nodemailer.createTransport({
+        service: "gmail", // Example using Gmail (you can change to other services like Outlook, SendGrid, etc.)
+        auth: {
+            user: process.env.EMAIL_USER, // Your email address
+            pass: process.env.EMAIL_PASS, // Your email password or app password
+        },
+    });
+
+    // Compose email message
+    const mailOptions = {
+        from: process.env.EMAIL_USER, // Sender address
+        to: process.env.EMAIL_USER, // Recipient address
+        subject: "Contact Us Form Submission", // Subject line
+        text: `You have a new contact message!\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`, // Message content
+    };
+
+    // Send the email
+    transporter.sendMail(mailOptions, (error, info) => {
+        console.log(error + info);
+
+        if (error) {
+            return res.status(500).send({ error: "Failed to send email" });
+        }
+        console.log("Email sent: " + info.response);
+        res.status(200).send({
+            message:
+                "Your message has been sent. We will get back to you soon.",
+        });
+    });
+});
+
 app.listen(process.env.PORT || PORT, "0.0.0.0", () => {
-    console.log(`http://localhost:${PORT}/`);
+    console.log(`Server running at http://localhost:${PORT}/`);
 });

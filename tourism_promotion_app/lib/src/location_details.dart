@@ -116,10 +116,10 @@ class _LocationDetailsState extends State<LocationDetails> {
                         SelectableText(
                           'Directions: ${locationDetails['maps_link']}',
                           style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.blue,
+                          ),
                         ),
                         IconButton(
                             onPressed: () {
