@@ -1,6 +1,6 @@
 import express from "express";
-import { readFileSync } from "fs";
-import { fileURLToPath } from "url";
+import { readFileSync, writeFileSync } from "fs";
+import { URL, fileURLToPath } from "url";
 import { getRandomElements, shuffleArray } from "./func.js";
 import { getDistance } from "geolib";
 import { configDotenv } from "dotenv";
@@ -127,6 +127,30 @@ app.post("/querygemini", async (req, res) => {
     // console.log(result.response.text());
 
     res.send({ output });
+});
+
+app.post("/add_location", async (req, res) => {
+    const reqData = req.body;
+    // console.log(reqData);
+
+    const parsedURL = new URL(reqData.url);
+
+    const coordinates = parsedURL.searchParams.get("q");
+
+    // Split the coordinates into latitude and longitude
+    const [latitude, longitude] = coordinates.split(",");
+
+    let data = await readFileSync(JSON_FILENAME); //copy of file
+    data = JSON.parse(data);
+
+    let n = reqData.name.replace(" ", "_");
+    data["location_geo_data"][n] = { lat: +latitude, lng: +longitude };
+    data["location_desc"][n] = { desc: reqData.desc, maps_link: reqData.url };
+
+    await writeFileSync(JSON_FILENAME, JSON.stringify(data));
+
+    res.status(200);
+    res.send();
 });
 
 app.listen(process.env.PORT || PORT, "0.0.0.0", () => {

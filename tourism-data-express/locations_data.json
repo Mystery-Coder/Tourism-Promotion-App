@@ -1,45 +1,30 @@
 {
     "location_geo_data": {
-        "Gudibande_Fort": {
-            "lat": 13.6894,
-            "lng": 77.7223
-        },
-        "Banavasi": {
-            "lat": 14.5339,
-            "lng": 75.0099
-        },
-        "Kudumari_Waterfalls": {
-            "lat": 13.6204,
-            "lng": 74.7046
-        },
-        "Siddara_Betta": {
-            "lat": 13.4311,
-            "lng": 77.2126
-        },
-        "Savehaklu_Reservoir": {
-            "lat": 13.656,
-            "lng": 75.1139
-        }
+        "Gudibande_Fort": { "lat": 13.6894, "lng": 77.7223 },
+        "Banavasi": { "lat": 14.5341, "lng": 75.0177 },
+        "Kudumari_Waterfalls": { "lat": 13.6204, "lng": 74.7046 },
+        "Siddara_Betta": { "lat": 13.4311, "lng": 77.2126 },
+        "Savehaklu_Reservoir": { "lat": 13.656, "lng": 75.1139 }
     },
     "location_desc": {
         "Gudibande_Fort": {
-            "desc": "An ancient hilltop fort offering stunning panoramic views and a peaceful trek, located near Chikkaballapur.",
+            "desc": "Gudibande Fort is an ancient hilltop marvel that offers breathtaking panoramic views of the surrounding landscapes. This historical fort, located near Chikkaballapur, is often referred to as the 'Poor Man's Nandi Hills' due to its serene trekking experience and less crowded environment. Built by local chieftain Byre Gowda in the 17th century, Gudibande Fort is a testament to strategic medieval fortifications. It boasts an intricate rainwater harvesting system with 19 water tanks, highlighting sustainable practices from the past. This fort serves as a window into Karnataka’s history and architectural ingenuity.",
             "maps_link": "https://www.google.com/maps?q=13.6894,77.7223"
         },
         "Banavasi": {
-            "desc": "A historic town known for its cultural heritage, Banavasi is one of the oldest towns in Karnataka, home to the famous Madhukeshwara Temple.",
-            "maps_link": "https://www.google.com/maps?q=14.5339,75.0099"
+            "desc": "Banavasi, known as the 'First Capital of Karnataka,' is a quaint town steeped in history and culture. Surrounded by lush forests and the Varada River, it is home to the ancient Madhukeshwara Temple, dedicated to Lord Shiva and constructed in the 9th century by the Kadamba dynasty. The town is a significant archaeological site, showcasing inscriptions and carvings that narrate the rich heritage of Karnataka. Banavasi is also celebrated for its vibrant cultural festivals, such as the Kadambotsava, which brings together art, dance, and history enthusiasts from across the region.",
+            "maps_link": "https://www.google.com/maps?q=14.5341,75.0177"
         },
         "Kudumari_Waterfalls": {
-            "desc": "A secluded waterfall near Kundapura, nestled in dense forests and requiring a short trek to reach.",
+            "desc": "Kudumari Waterfalls, also known as Chaktikal Falls, is a secluded natural wonder near Kundapura. Nestled within dense forests, the waterfall cascades from a height of about 300 feet, creating a mesmerizing spectacle. The journey to Kudumari involves an adventurous trek through lush greenery, making it a paradise for nature lovers and trekkers. The waterfall is an ecological gem, playing a crucial role in sustaining the local biodiversity. It is also a perfect spot for eco-tourism, promoting awareness about Karnataka’s pristine natural habitats.",
             "maps_link": "https://www.google.com/maps?q=13.6204,74.7046"
         },
         "Siddara_Betta": {
-            "desc": "A peaceful hill known for meditation, trekking, and ancient caves, situated near Tumkur.",
+            "desc": "Siddara Betta, which translates to 'Hill of Saints,' is a serene destination near Tumkur, renowned for its spiritual significance. The hill is dotted with ancient caves that once served as meditation spots for sages and monks, making it a sacred site for pilgrims. In addition to its spiritual appeal, Siddara Betta is a popular trekking destination offering scenic views and a chance to explore diverse flora and fauna. Its medicinal herbs and natural springs are believed to have healing properties, attracting visitors seeking tranquility and wellness.",
             "maps_link": "https://www.google.com/maps?q=13.4311,77.2126"
         },
         "Savehaklu_Reservoir": {
-            "desc": "A scenic reservoir near Agumbe, surrounded by lush green hills, offering a serene getaway and panoramic views.",
+            "desc": "Savehaklu Reservoir, located near Agumbe, is a serene retreat surrounded by the Western Ghats' verdant hills. Known for its breathtaking sunsets and tranquil atmosphere, the reservoir is a haven for nature enthusiasts and photographers. It plays a crucial role in irrigation and water management for the local community. The area is rich in biodiversity and serves as a gateway to exploring the nearby forests and wildlife sanctuaries. Savehaklu is an ideal destination for eco-tourism, encouraging sustainable practices and appreciation for Karnataka’s natural beauty.",
             "maps_link": "https://www.google.com/maps?q=13.6560,75.1139"
         }
     }
