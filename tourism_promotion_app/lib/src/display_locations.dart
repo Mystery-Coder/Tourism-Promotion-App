@@ -227,8 +227,8 @@ class _DisplayLocationsState extends State<DisplayLocations> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            title: const Text('Static Map of Karnataka'),
-            backgroundColor: Colors.blue[800],
+            title: const Text('Map of Locations'),
+            backgroundColor: Colors.lightBlue[800],
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {

@@ -23,7 +23,7 @@ void main() {
       // '/location_details': (context) => const LocationDetails(), //Added as Dynamic Route, as in built when called cuz data needs to be passed
     },
     theme: ThemeData(
-      textTheme: GoogleFonts.robotoSerifTextTheme(
+      textTheme: GoogleFonts.ralewayTextTheme(
         // Provide the default text theme
         ThemeData.light().textTheme,
       ),

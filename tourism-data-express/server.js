@@ -7,7 +7,6 @@ import { configDotenv } from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import path from "path";
 import cors from "cors";
-import nodemailer from "nodemailer"; // Import Nodemailer
 
 configDotenv();
 
@@ -144,46 +143,6 @@ app.post("/add_location", async (req, res) => {
 
     res.status(200);
     res.send();
-});
-
-// Contact endpoint to receive contact form data and send an email
-app.post("/contact", async (req, res) => {
-    const { name, email, message } = req.body;
-
-    if (!name || !email || !message) {
-        return res.status(400).send({ error: "All fields are required" });
-    }
-
-    // Set up Nodemailer transporter with your email service details
-    const transporter = nodemailer.createTransport({
-        service: "gmail", // Example using Gmail (you can change to other services like Outlook, SendGrid, etc.)
-        auth: {
-            user: process.env.EMAIL_USER, // Your email address
-            pass: process.env.EMAIL_PASS, // Your email password or app password
-        },
-    });
-
-    // Compose email message
-    const mailOptions = {
-        from: process.env.EMAIL_USER, // Sender address
-        to: process.env.EMAIL_USER, // Recipient address
-        subject: "Contact Us Form Submission", // Subject line
-        text: `You have a new contact message!\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`, // Message content
-    };
-
-    // Send the email
-    transporter.sendMail(mailOptions, (error, info) => {
-        console.log(error + info);
-
-        if (error) {
-            return res.status(500).send({ error: "Failed to send email" });
-        }
-        console.log("Email sent: " + info.response);
-        res.status(200).send({
-            message:
-                "Your message has been sent. We will get back to you soon.",
-        });
-    });
 });
 
 app.listen(process.env.PORT || PORT, "0.0.0.0", () => {
